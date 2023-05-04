@@ -5,8 +5,8 @@ on:
   #   types: [completed]
   pull_request:
     types: [opened, reopened, synchronize]
-    branches:
-      - 'release/v**'
+    # branches:
+    #   - 'release/v**'
 
 jobs:
   pull_request:
