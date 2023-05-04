@@ -34,7 +34,7 @@ jobs:
         if: steps.comment_check.outputs.result != ''
         # run: echo "${{ steps.comment_check.outputs.result }}"
         env:
-          COMMENT_ID: ${{ steps.comment_check.outputs.result }}
+          COMMENT_ID: "${{ steps.comment_check.outputs.result }}"
         with:
           script: |
             const env = process.env
