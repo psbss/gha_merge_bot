@@ -13,7 +13,8 @@ jobs:
     name: checkout
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v5
+      - name: comment
+        uses: actions/github-script@v5
         env:
           message: |
             If you merge this PR into develop
