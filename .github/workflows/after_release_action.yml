@@ -32,14 +32,16 @@ jobs:
       - name: check
         run: echo "${{ steps.comment_check.outputs.result }}"
 
-      # - name: comment delete
-      #   uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
-      #   if: steps.comment_check.outputs.result != null
-      #   env:
-      #     COMMENT_ID: ${{ steps.comment_check.outputs.result }}
+      - name: comment delete
+        # uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
+        if: steps.comment_check.outputs.result != ''
+        run: echo "${{ steps.comment_check.outputs.result }}"
+        # env:
+        #   COMMENT_ID: ${{ steps.comment_check.outputs.result }}
         # with:
         #   script: |
         #     console.log($COMMENT_ID)
+
       # - name: comment delete
       #   uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
       #   with:
