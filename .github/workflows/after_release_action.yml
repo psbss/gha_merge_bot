@@ -25,12 +25,12 @@ jobs:
             console.log(response)
             const comment = response.data.find((comment) => comment.user.login === 'github-actions[bot]')
             const commentId = comment.id
-            console.log(commentid)
+            console.log(commentId)
       - name: comment delete
         uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
-        if: steps.comment_check.outputs.commentid != null
+        if: steps.comment_check.outputs.commentId != null
         env:
-          COMMENT_ID: steps.comment_check.outputs.commentid
+          COMMENT_ID: steps.comment_check.outputs.commentId
         with:
           script: |
             console.log($COMMENT_ID)
