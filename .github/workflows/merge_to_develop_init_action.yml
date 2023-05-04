@@ -6,7 +6,6 @@ on:
 
 jobs:
   comment_check_and_initialize:
-    name: checkout
     runs-on: ubuntu-latest
     if: contains(github.head_ref, 'release/v')
     steps:
@@ -20,10 +19,8 @@ jobs:
               repo: context.repo.repo,
               issue_number: context.issue.number
             })
-            console.log(response)
             const comment = response.data.find((comment) => comment.user.login === 'github-actions[bot]')
             const commentId = comment.id
-            console.log(commentId)
             return commentId
           result-encoding: string
 
