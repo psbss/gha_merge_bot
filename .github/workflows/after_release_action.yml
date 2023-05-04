@@ -24,7 +24,7 @@ jobs:
             console.log(response)
             const comment = response.data.find((comment) => comment.user.login === 'github-actions[bot]')
             console.log(comment.id)
-            echo COMMENT_ID=comment.id >> $GITHUB_ENV
+            echo "COMMENT_ID=\(comment.id)" >> $GITHUB_ENV
       - name: comment delete
         uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
         with:
