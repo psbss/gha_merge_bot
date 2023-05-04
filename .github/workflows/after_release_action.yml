@@ -21,7 +21,7 @@ jobs:
               repo: context.repo.repo,
               issue_number: context.issue.number
             })
-            console.log(comments)
+            console.log(data)
       # - name: comment
       #   uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
       #   env:
