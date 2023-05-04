@@ -16,12 +16,14 @@ jobs:
         uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
         with:
           script: |
-            const {data: comments} = await github.rest.issues.listComments({
+            const response = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number
             })
-            console.log(comments)
+            console.log(response)
+            const comment = response.data.find((comment) => comment.user.login === 'github-actions[bot]')
+            console.log(comment.id)
       # - name: comment
       #   uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
       #   env:
