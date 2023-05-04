@@ -5,7 +5,8 @@ on:
     types: [opened, reopened, synchronize]
 
 jobs:
-  comment_check_and_initialize:
+  check_and_delete_comment:
+    name: check_and_delete_comment
     runs-on: ubuntu-latest
     if: contains(github.head_ref, 'release/v')
     steps:
