@@ -20,6 +20,7 @@ jobs:
             If you merge this PR into develop
             Please reaction '🚀' stamp for this comment
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             github.rest.issues.createComment({
               issue_number: context.issue.number,
