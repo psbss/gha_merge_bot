@@ -1,0 +1,33 @@
+name: After release action
+
+on:
+  # check_suite:
+  #   types: [completed]
+  pull_request:
+    types: [opened, reopened, synchronize]
+    branches:
+      - release/v*
+
+jobs:
+  pull_request:
+    name: checkout
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v5
+        env:
+          message: |
+            If you merge this PR into develop
+            Please reaction '🚀' stamp for this comment
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: process.env.message
+            })
+      # - uses: actions/checkout@v3
+      #   with:
+      #     fetch-depth: 0
+      #     ref: develop
+
