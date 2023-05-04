@@ -12,21 +12,29 @@ jobs:
     runs-on: ubuntu-latest
     if: contains(github.head_ref, 'release/v')
     steps:
-      - name: comment
+      - name: comment check
         uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
-        env:
-          MESSAGE: |
-            If you merge this PR into develop
-            Please reaction '🚀' stamp for this comment
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
+            github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: process.env.MESSAGE
+              issue_number: context.issue.number
             })
+      # - name: comment
+      #   uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
+      #   env:
+      #     MESSAGE: |
+      #       If you merge this PR into develop
+      #       Please reaction '🚀' stamp for this comment
+      #   with:
+      #     script: |
+      #       github.rest.issues.createComment({
+      #         issue_number: context.issue.number,
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         body: process.env.MESSAGE
+      #       })
       # - uses: actions/checkout@v3
       #   with:
       #     fetch-depth: 0
