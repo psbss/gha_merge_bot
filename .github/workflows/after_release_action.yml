@@ -30,7 +30,7 @@ jobs:
           result-encoding: string
 
       - name: check
-      run: echo "${{ steps.comment_check.outputs.result }}"
+        run: echo "${{ steps.comment_check.outputs.result }}"
 
       # - name: comment delete
       #   uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
