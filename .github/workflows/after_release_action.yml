@@ -5,16 +5,16 @@ on:
   #   types: [completed]
   pull_request:
     types: [opened, reopened, synchronize]
-    # branches:
-    #   - 'release/v**'
 
 jobs:
   pull_request:
     name: checkout
     runs-on: ubuntu-latest
+    if: contains(github.head_ref, 'release/v')
     steps:
       - name: comment
-        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
+        # uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
+        uses: actions/github-script@v5
         env:
           MESSAGE: |
             If you merge this PR into develop
