@@ -20,6 +20,7 @@ jobs:
               repo: context.repo.repo,
               issue_number: context.issue.number
             })
+            console.log(response)
             const comment = response.data.find((comment) => comment.user.login === 'github-actions[bot]')
             const commentId = comment.id
             return commentId
