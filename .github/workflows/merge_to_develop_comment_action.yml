@@ -1,8 +1,10 @@
 name: Merge to develop comment action
 
 on:
-  check_suite:
-    types: [completed]
+  # check_suite:
+  #   types: [completed]
+  pull_request:
+    types: [opened, reopened, synchronize]
 
 jobs:
   comment_to_pr:
