@@ -21,16 +21,16 @@ jobs:
               issue_number: context.issue.number
             })
             if (response.data.length) {
-              return 'exit_by_no_data'
+              process.exit(0)
             }
             const comment = response.data.find((comment) => comment.user.login === 'github-actions[bot]')
             const commentId = comment.id
             return commentId
           result-encoding: string
 
-      - name: check_exit
-        if: steps.comment_check.outputs.result == 'exit_by_no_data'
-        run: exit 0
+      # - name: check_exit
+      #   if: steps.comment_check.outputs.result == 'exit_by_no_data'
+      #   run: exit 0
 
       - name: delete_comment
         if: steps.comment_check.outputs.result != ''
