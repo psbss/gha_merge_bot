@@ -36,6 +36,8 @@ jobs:
           COMMENT_ID: "${{ steps.comment_check.outputs.result }}"
         with:
           script: |
+            const env = process.env
+            console.log(env.COMMENT_ID)
             console.log("test")
 
       # - name: comment delete
