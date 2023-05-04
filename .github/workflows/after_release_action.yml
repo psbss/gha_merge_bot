@@ -37,8 +37,8 @@ jobs:
           COMMENT_ID: "${{ steps.comment_check.outputs.result }}"
         with:
           script: |
-            const env = process.env
-            console.log(${ env })
+            const { commentId } = process.env
+            console.log(${ commentId })
 
       # - name: comment delete
       #   uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
