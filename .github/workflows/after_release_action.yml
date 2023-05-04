@@ -13,6 +13,7 @@ jobs:
     if: contains(github.head_ref, 'release/v')
     steps:
       - name: comment check
+        id: comment_check
         uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
         with:
           script: |
@@ -23,8 +24,16 @@ jobs:
             })
             console.log(response)
             const comment = response.data.find((comment) => comment.user.login === 'github-actions[bot]')
-            console.log(comment.id)
-
+            const commentId = comment.id
+            console.log(commentid)
+      - name: comment delete
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
+        if: steps.comment_check.outputs.commentid != null
+        env:
+          COMMENT_ID: steps.comment_check.outputs.commentid
+        with:
+          script: |
+            console.log($COMMENT_ID)
       # - name: comment delete
       #   uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
       #   with:
