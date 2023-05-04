@@ -1,58 +1,25 @@
 name: After release action
 
-# on:
-#   # check_suite:
-#   #   types: [completed]
-#   pull_request:
-#     types: [opened, reopened, synchronize]
-
-# jobs:
-#   pull_request:
-#     name: checkout
-#     runs-on: ubuntu-latest
-#     if: contains(github.head_ref, 'release/v')
-#     steps:
-#       - name: comment
-#         uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
-#         env:
-#           MESSAGE: |
-#             If you merge this PR into develop
-#             Please reaction '🚀' stamp for this comment
-#         with:
-#           github-token: ${{ secrets.GITHUB_TOKEN }}
-#           script: |
-#             github.rest.issues.createComment({
-#               issue_number: context.issue.number,
-#               owner: context.repo.owner,
-#               repo: context.repo.repo,
-#               body: process.env.MESSAGE
-#             })
-      # - uses: actions/checkout@v3
-      #   with:
-      #     fetch-depth: 0
-      #     ref: develop
-
 on:
+  # check_suite:
+  #   types: [completed]
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, reopened, synchronize]
 
 jobs:
-  comment_to_pr:
-    name: Comment to PR
+  pull_request:
+    name: checkout
     runs-on: ubuntu-latest
-
+    if: contains(github.head_ref, 'release/v')
     steps:
       - name: comment
-        uses: actions/github-script@v5
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
         env:
           MESSAGE: |
-            リリースの規模に合わせて以下のコメントを書き込んでください（何も入力しない場合はパッチアップデート扱いになります）
-            | 規模 | コメント | 補足 |
-            | --- | --- | --- |
-            | メジャーアップデート | `/release major` | 既存のAPIやモデルに破壊的変更がある場合 |
-            | マイナーアップデート | `/release minor` | 新機能の追加など既存の機能には影響がない場合 |
-            | パッチアップデート | `/release patch` | バグ修正 |
+            If you merge this PR into develop
+            Please reaction '🚀' stamp for this comment
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             github.rest.issues.createComment({
               issue_number: context.issue.number,
@@ -60,3 +27,8 @@ jobs:
               repo: context.repo.repo,
               body: process.env.MESSAGE
             })
+      # - uses: actions/checkout@v3
+      #   with:
+      #     fetch-depth: 0
+      #     ref: develop
+
