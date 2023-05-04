@@ -1,18 +1,16 @@
-name: After release action
+name: Comment initialize action
 
 on:
-  # check_suite:
-  #   types: [completed]
   pull_request:
     types: [opened, reopened, synchronize]
 
 jobs:
-  pull_request:
+  comment_check_and_initialize:
     name: checkout
     runs-on: ubuntu-latest
     if: contains(github.head_ref, 'release/v')
     steps:
-      - name: comment check
+      - name: check comment
         id: comment_check
         uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
         with:
@@ -29,7 +27,7 @@ jobs:
             return commentId
           result-encoding: string
 
-      - name: comment delete
+      - name: delete comment
         if: steps.comment_check.outputs.result != ''
         uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
         env:
@@ -42,28 +40,3 @@ jobs:
               repo: context.repo.repo,
               comment_id: env.COMMENT_ID
             })
-
-      # - name: comment delete
-      #   uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
-      #   with:
-      #     script: |
-      #       console.log($COMMENT_ID)
-      # - name: comment
-      #   uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
-      #   env:
-      #     MESSAGE: |
-      #       If you merge this PR into develop
-      #       Please reaction '🚀' stamp for this comment
-      #   with:
-      #     script: |
-      #       github.rest.issues.createComment({
-      #         issue_number: context.issue.number,
-      #         owner: context.repo.owner,
-      #         repo: context.repo.repo,
-      #         body: process.env.MESSAGE
-      #       })
-      # - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab #v3.5.2
-      #   with:
-      #     fetch-depth: 0
-      #     ref: develop
-
