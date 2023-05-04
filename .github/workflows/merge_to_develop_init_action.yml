@@ -32,16 +32,16 @@ jobs:
         if: steps.comment_check.outputs.result == 'exit_by_no_data'
         run: exit 0
 
-      - name: delete_comment
-        if: steps.comment_check.outputs.result != ''
-        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
-        env:
-          COMMENT_ID: "${{ steps.comment_check.outputs.result }}"
-        with:
-          script: |
-            const env = process.env
-            github.rest.issues.deleteComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              comment_id: env.COMMENT_ID
-            })
+      # - name: delete_comment
+      #   if: steps.comment_check.outputs.result != ''
+      #   uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
+      #   env:
+      #     COMMENT_ID: "${{ steps.comment_check.outputs.result }}"
+      #   with:
+      #     script: |
+      #       const env = process.env
+      #       github.rest.issues.deleteComment({
+      #         owner: context.repo.owner,
+      #         repo: context.repo.repo,
+      #         comment_id: env.COMMENT_ID
+      #       })
