@@ -37,8 +37,11 @@ jobs:
         with:
           script: |
             const env = process.env
-            console.log(env.COMMENT_ID)
-            console.log("test")
+            github.rest.issues.deleteComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: env.COMMENT_ID
+            })
 
       # - name: comment delete
       #   uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
