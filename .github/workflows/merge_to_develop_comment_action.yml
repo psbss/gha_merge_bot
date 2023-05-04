@@ -8,7 +8,7 @@ on:
 
 jobs:
   comment_to_pr:
-    name: checkout
+    name: comment_to_pr
     runs-on: ubuntu-latest
     if: contains(github.head_ref, 'release/v')
     steps:
