@@ -1,0 +1,26 @@
+name: Merge to develop comment action
+
+on:
+  check_suite:
+    types: [completed]
+
+jobs:
+  comment_to_pr:
+    name: checkout
+    runs-on: ubuntu-latest
+    if: contains(github.head_ref, 'release/v')
+    steps:
+      - name: comment
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
+        env:
+          MESSAGE: |
+            If you merge this PR into develop
+            Please reaction '🚀' stamp for this comment
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: process.env.MESSAGE
+            })

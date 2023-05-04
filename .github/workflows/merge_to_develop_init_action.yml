@@ -1,4 +1,4 @@
-name: Comment initialize action
+name: Merge to develop initialize action
 
 on:
   pull_request:
