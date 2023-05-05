@@ -8,7 +8,7 @@ jobs:
   check_reaction:
     name: check_reaction
     runs-on: ubuntu-latest
-    # if: contains(github.head_ref, 'release/v')
+    if: contains(github.head_ref, 'release/v')
     steps:
       - name: fetch latest comment id
         id: fetch_comment
