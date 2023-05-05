@@ -17,7 +17,10 @@ jobs:
         env:
           MESSAGE: |
             If you merge this PR into develop
-            Please reaction '🚀' stamp for this comment
+            Please comment these string
+            ```text
+            🚀 Merge PR(#${{ github.event.number }}) into develop
+            ```
         with:
           script: |
             github.rest.issues.createComment({
