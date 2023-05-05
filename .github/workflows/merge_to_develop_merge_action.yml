@@ -1,4 +1,4 @@
-name: Merge to develop comment action
+name: Merge to develop action
 
 on:
   # check_suite:
