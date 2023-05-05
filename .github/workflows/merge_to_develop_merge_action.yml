@@ -1,10 +1,8 @@
 name: Merge to develop action
 
 on:
-  # check_suite:
-  #   types: [completed]
-  
-    types: 
+  issue_comment:
+    types: [created]
 
 jobs:
   check_reaction:
