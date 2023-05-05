@@ -1,0 +1,59 @@
+name: Merge to develop action
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  check_reaction:
+    name: check_reaction
+    runs-on: ubuntu-latest
+    if: ${{ github.event.issue.pull_request }}
+    steps:
+      - name: fetch comment id
+        id: fetch_comment
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
+        with:
+          script: |
+            const triggeer_string = `🚀 Merge PR(#${context.issue.number}) into develop`
+            const response = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number
+            })
+            if (!response.data.length) {
+              process.exit(0)
+            }
+            const comment = response.data.find((comment) =>
+              comment.body === triggeer_string &&
+              comment.user.login != 'github-actions[bot]'
+            )
+            const commentId = comment.id
+            return commentId
+          result-encoding: string
+
+      - name: reaction to comment
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
+        env:
+          COMMENT_ID: "${{ steps.fetch_comment.outputs.result }}"
+        with:
+          script: |
+            const env = process.env
+            github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: env.COMMENT_ID,
+              content: "+1"
+            })
+
+      - name: merge a pull request
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
+        with:
+          script: |
+            github.rest.pulls.merge({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: context.issue.number,
+              commit_title: `🚀 Merge PR(#${context.issue.number}) into develop`,
+              merge_method: "merge"
+            })
