@@ -1,0 +1,43 @@
+name: Merge to develop initialize action
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+jobs:
+  check_and_delete_comment:
+    name: check_and_delete_comment
+    runs-on: ubuntu-latest
+    if: contains(github.head_ref, 'release/v')
+    steps:
+      - name: check comment
+        id: comment_check
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
+        with:
+          script: |
+            const response = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number
+            })
+            if (!response.data.length) {
+              process.exit(0)
+            }
+            const comment = response.data.find((comment) => comment.user.login === 'github-actions[bot]')
+            const commentId = comment.id
+            return commentId
+          result-encoding: string
+
+      - name: delete_comment
+        if: steps.comment_check.outputs.result != ''
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
+        env:
+          COMMENT_ID: "${{ steps.comment_check.outputs.result }}"
+        with:
+          script: |
+            const env = process.env
+            github.rest.issues.deleteComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: env.COMMENT_ID
+            })
