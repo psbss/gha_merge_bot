@@ -27,7 +27,10 @@ jobs:
             if (!response.data.length) {
               process.exit(0)
             }
-            const comment = response.data.find((comment) => comment.body.contains === env.TRIGGER_STRING)
+            const comment = response.data.find((comment) => {
+              comment.body.contains === env.TRIGGER_STRING &&
+              comment.user.login != 'github-actions[bot]'
+            )
             const commentId = comment.id
             return commentId
           result-encoding: string
