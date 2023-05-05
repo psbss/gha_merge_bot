@@ -15,17 +15,21 @@ jobs:
       - name: fetch latest comment id
         id: fetch_comment
         uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
+        env:
+          TRIGGER_STRING: "🚀 Merge PR(#${{ github.event.number }}) into develop"
         with:
           script: |
+            const env = process.env
             const response = await github.rest.issues.listComments({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number
             })
+            console.log(env.TRIGGER_STRING)
             if (!response.data.length) {
               process.exit(0)
             }
-            const comment = response.data.find((comment) => comment.user.login === 'github-actions[bot]')
+            const comment = response.data.find((comment) => comment.body.contains === env.TRIGGER_STRING)
             const commentId = comment.id
             return commentId
           result-encoding: string
@@ -37,9 +41,9 @@ jobs:
         with:
           script: |
             const env = process.env
-            const response = await github.rest.issues.listForIssueComment({
+            github.rest.issues.createForIssueComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              comment_id: env.COMMENT_ID
+              comment_id: env.COMMENT_ID,
+              content: +1
             })
-            console.log(response)
