@@ -4,10 +4,6 @@ on:
   issue_comment:
     types: [created]
 
-env:
-  # actions/github-script v6.4.1
-  GITHUB_SCRIPT_VERSION: d7906e4ad0b1822421a7e6a35d5ca353c962f410
-
 jobs:
   check_reaction:
     name: check_reaction
@@ -16,7 +12,7 @@ jobs:
     steps:
       - name: fetch comment id
         id: fetch_comment
-        uses: actions/github-script@${{ env.GITHUB_SCRIPT_VERSION }}
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 #v6.4.1
         with:
           script: |
             const triggeer_string = `🚀 Merge PR(#${context.issue.number}) into develop`
