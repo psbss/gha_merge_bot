@@ -10,6 +10,8 @@ jobs:
   comment_to_pr:
     name: comment_to_pr
     runs-on: ubuntu-latest
+    environment: 
+      name: production
     if: contains(github.head_ref, 'release/v')
     steps:
       - name: comment
@@ -21,6 +23,7 @@ jobs:
             ```text
             🚀 Merge PR(#${{ github.event.number }}) into develop
             ```
+            ${{ secrets.SAMPLE_SECRET}}
         with:
           script: |
             github.rest.issues.createComment({
